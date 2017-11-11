@@ -54,6 +54,8 @@ var tryAgain = false
 var player_name = ""
 var table_length
 var background_music
+var monsterCanShoot = true;
+
 
 var platformL1 = 
 [
@@ -452,10 +454,8 @@ function startGame(evt){
 
     svgdoc.getElementById("player_name").textContent = player_name
 
-    svgdoc.getElementById("start_screen").setAttribute("visibility", "hidden");
-    // svgdoc.getElementById("gamearea").setAttribute("visibility", "visible");
+    // svgdoc.getElementById("start_screen").setAttribute("visibility", "hidden");
 
-    //
     isGameOver = false
     
     total_candy = 0
@@ -475,7 +475,7 @@ function startGame(evt){
     // Remove text nodes in the 'platforms' group
     cleanUpGroup("platforms", true);
 
-    setUpPlatform(1);
+    createPlatforms(1);
     background_music.play() 
     // Start the game interval
     if (!tryAgain){
@@ -536,6 +536,10 @@ function updateHighScoreTable(){
     for (i=0;i<5;i++){
         var text = svgdoc.getElementById("player"+i)
         var scoretext = svgdoc.getElementById("highscoretext"+i)
+
+        if (player_name == table[i].name) {
+            text.setAttribute("style", "fill:red")
+        }
         if (table[i]==null)
             break
         if (table[i].name == "0" && table[i].score == "0")
@@ -645,6 +649,18 @@ function shoot(){
 
 function createGiftSVG(){
     var platforms = svgdoc.getElementById("platforms");
+    var gift=svgdoc.createElementNS(xmlns,"use");
+    gift.setAttributeNS(null, "class", "gift");
+
+    gift.setAttributeNS(xlinkns, "xlink:href", "#gift");
+
+    platforms.appendChild(gift)
+    return gift
+} 
+
+function createBulletSVG(){
+    var platforms = svgdoc.getElementById("platforms");
+    var specialchild = svgdoc.getElementById("specialchild");
 
     var gift=svgdoc.createElementNS(xmlns,"use");
     gift.setAttributeNS(null, "class", "gift");
@@ -654,6 +670,9 @@ function createGiftSVG(){
     platforms.appendChild(gift)
     return gift
 } 
+
+
+
 
 function updateGiftCount(){
     var text = svgdoc.getElementById("gift_left")
@@ -790,6 +809,29 @@ function updateGiftPosition(){
     }    
 }
 
+
+function updateBulletPosition(){
+    for (var i=0; i<8-gift_count; i++){
+        var move = MOVE_DISPLACEMENT*2
+        if (!gift[i]) continue
+        if (gift[i].motion== motionType.LEFT) gift[i].position.x -= move
+        else gift[i].position.x += move
+        
+        var child_n = bumpIntoChild(gift[i].position)
+        if (child_n!=-1){
+            killChild(child_n)
+            removeGift(i)
+        }
+        else if (collidePlatform(gift[i].position, GIFT_SIZE))
+            removeGift(i)
+        else if (gift[i].position.x < 0 || gift[i].position.x > SCREEN_SIZE.w 
+            || gift[i].position.y < 0 || gift[i].position.y > SCREEN_SIZE.h)
+            removeGift(i)
+    }    
+}
+
+
+
 function removeGift(n){
     gift[n].svgObject.parentNode.removeChild(gift[n].svgObject)
     gift[n] = null  
@@ -816,7 +858,7 @@ function proceedToNextRound(){
         gameOver() 
     remainTime = LEVEL_TOTAL_TIME
     cleanUpGroup("platforms", true);
-    setUpPlatform(currentLevel)
+    createPlatforms(currentLevel)
     gift_count = 8
     document.getElementById("finish").play()
 }
@@ -880,6 +922,9 @@ function updateScreen() {
     updateGiftPosition()
     updateVerticalPlatformPosition()
 
+  // if(monsterCanShoot)
+  //     monsterShootBullet();
+
     // Transform the player
     if (flipPlayer==motionType.RIGHT){
         player.node.setAttribute("transform", "translate(" + player.position.x + "," + player.position.y + ")");
@@ -921,7 +966,7 @@ function updateScreen() {
 
 
 
-function setUpPlatform(level){
+function createPlatforms(level){
     var PLATFORM = '1'
     var EXIT = '2'
     var COIN = '3'
@@ -929,6 +974,7 @@ function setUpPlatform(level){
     var DISAPPEARING_PLATFORM = '5'
     var VERTICAL_PLATFORM = '6'
     var PORTAL = '7'
+    var SPECIAL_CHILD = '8'
     var platforms = svgdoc.getElementById("platforms");
     var x,y
 
@@ -978,6 +1024,15 @@ function setUpPlatform(level){
                     platforms.appendChild(newPlatform)
                     child[child_count++] = new Child(newPlatform, (child_count%2)+1,_x,_y, new Size(PLATFORM_SIZE, PLAYER_SIZE*2))
                 }
+
+                else if (getValueFromPlatform(x,y,level)==SPECIAL_CHILD){
+                    var newPlatform=svgdoc.createElementNS(xmlns,"use");
+                    newPlatform.setAttributeNS(null, "class", "specialChild");
+                    newPlatform.setAttributeNS(xlinkns, "xlink:href", "#specialchild");
+                    platforms.appendChild(newPlatform)
+                    child[child_count++] = new Child(newPlatform, (child_count%2)+1,_x,_y, new Size(PLATFORM_SIZE, PLAYER_SIZE*2))
+                }
+
                 else if (getValueFromPlatform(x,y,level)==PORTAL){                    
                     var newPortal=svgdoc.createElementNS(xmlns,"use");
                     newPortal.setAttributeNS(null, "class", "portal");
