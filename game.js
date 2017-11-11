@@ -539,7 +539,7 @@ function startGame(evt){
     // Remove text nodes in the 'platforms' group
     cleanUpGroup("platforms", true);
 
-    setUpPlatform(3);
+    setUpPlatform(1);
     background_music.play() 
     // Start the game interval
     if (!tryAgain){
