@@ -48,7 +48,7 @@ var gift_count = 8
 var vertical_platform_count = 0
 var vertical_platform = []
 var portal = []
-var flipPlayer = motionType.RIGHT
+var flipRight = motionType.RIGHT
 var cheatMode = false
 var tryAgain = false
 var player_name = ""
@@ -64,7 +64,7 @@ var platformL1 =
 "0000000000000000000000000000000000000000",
 "0000000000000000000000011555111110000000",
 "0000000005000000000000000000000000000000",
-"0000000000000000000043000000000030000000",
+"0000000000000000400003000000008030000000",
 "0000000000000000000000000000000000000000",
 "0000000000000100000000000000000010000000",
 "0000000000000000000001000000000000030000",
@@ -92,14 +92,14 @@ var platformL1 =
 
 var platformL2 = 
 [
-"0000000000000000000003000000000000000070",
-"0000000000000000000000000400000000000400",
+"0000000000000000000003000000000000000000",
+"0000000000000000000000000400000400000000",
 "0000003000000000000000000000000000000000",
 "0000000040000000000001111111111110000000",
 "0000000000000000000000000000000000003000",
 "0055111111111000000000000040000000000000",
 "0000000000000000000000000000000000000000",
-"0000000000000000000000000111111111000066",
+"0000000000000000000000000111111111000766",
 "0000000003000000000000000000000000000000",
 "0000000000000000001000000000000000000000",
 "0000000000040000000000000000000030000000",
@@ -393,14 +393,14 @@ function keydown(evt) {
 
     switch (keyCode) {
         case "N".charCodeAt(0):
-            if (player.motion!=motionType.LEFT) flipPlayer = motionType.LEFT
+            if (player.motion!=motionType.LEFT) flipRight = motionType.LEFT
             player.motion = motionType.LEFT;
             player.orientation = motionType.LEFT
 
             break;
 
         case "M".charCodeAt(0):
-            if (player.motion!=motionType.RIGHT) flipPlayer = motionType.RIGHT
+            if (player.motion!=motionType.RIGHT) flipRight = motionType.RIGHT
             player.motion = motionType.RIGHT;
             player.orientation = motionType.RIGHT
             break;
@@ -926,7 +926,7 @@ function updateScreen() {
   //     monsterShootBullet();
 
     // Transform the player
-    if (flipPlayer==motionType.RIGHT){
+    if (flipRight==motionType.RIGHT){
         player.node.setAttribute("transform", "translate(" + player.position.x + "," + player.position.y + ")");
         svgdoc.getElementById("player_name").setAttribute("transform", "translate(" + player.position.x + "," + player.position.y + ")");
     }
@@ -939,7 +939,7 @@ function updateScreen() {
     // child
     for (var i=0; i<child_count; i++){
         if (child[i]){
-            if (child[i].motion == motionType.LEFT){
+            if (child[i].motion == motionType.RIGHT){
                 child[i].svgObject.setAttribute("transform", "translate(" + child[i].position.x + "," + child[i].position.y + ")");    
             }
             else
