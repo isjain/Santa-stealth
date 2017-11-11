@@ -682,16 +682,16 @@
   <text x="70" y="0" style="fill:red;font-size:25px;font-weight:bold;text-anchor:middle">Score:</text>
   <rect x="0" y="10" width="140" height="35" style="fill:white" />
   <text id="score" x="70" y="36" style="fill:red;font-size:25px;text-anchor:middle">0</text>
-   <text x="70" y="80" style="fill:red;font-size:25px;font-weight:bold;text-anchor:middle"> Level:</text>
-  <rect x="0" y="90" width="140" height="35" style="fill:white" />
-  <text id="level_text" x="70" y="116" style="fill:red;font-size:25px;text-anchor:middle">1</text>
-   <text x="70" y="160" style="fill:red;font-size:25px;font-weight:bold;text-anchor:middle"> Bullet: </text>
-  <rect x="0" y="170" width="140" height="35" style="fill:white" />
-  <text id="gift_left" x="70" y="196" style="fill:red;font-size:25px;text-anchor:middle">8</text>
-  <text x="70" y="240" style="fill:red;font-size:25px;font-weight:bold;text-anchor:middle"> Time: </text>
-  <rect x="0" y="250" width="140" height="35" style="fill:white" />
+   <text x="70" y="100" style="fill:red;font-size:25px;font-weight:bold;text-anchor:middle"> Level:</text>
+  <rect x="0" y="110" width="140" height="35" style="fill:white" />
+  <text id="level_text" x="70" y="136" style="fill:red;font-size:25px;text-anchor:middle">1</text>
+   <text x="70" y="200" style="fill:red;font-size:25px;font-weight:bold;text-anchor:middle"> Bullet: </text>
+  <rect x="0" y="210" width="140" height="35" style="fill:white" />
+  <text id="gift_left" x="70" y="240" style="fill:red;font-size:25px;text-anchor:middle">8</text>
+  <text x="70" y="300" style="fill:red;font-size:25px;font-weight:bold;text-anchor:middle"> Time: </text>
+  <rect x="0" y="310" width="140" height="35" style="fill:white" />
   <rect id="time_remaining_bar" x="0" y="250" width="140" height="35" style="fill:white; fill-opacity: 0.2;" />
-  <text id="clock_text" x="70" y="276" style="fill:red;font-size:25px;text-anchor:middle">60</text>
+  <text id="clock_text" x="70" y="340" style="fill:red;font-size:25px;text-anchor:middle">60</text>
 </g>
 
 
@@ -2276,8 +2276,8 @@
     </g>
   </g>
   <g id="high_score_table" transform="translate(20,20)" style="visibility:hidden">
-        <rect width="800" height="600" style="fill:white;stroke:red;stroke-width:2"/>
-    <text x="250" y="100" id="game_over_text" style="fill:black;font-size:50px; font-family:Quicksand">GAME OVER</text>
+        <rect width="800" height="600" style="fill:white;stroke:gray;stroke-width:2"/>
+    <text x="250" y="100" id="game_over_text" style="fill:black;font-size:50px; font-family:Quicksand;">GAME OVER</text>
     <text x="200" y="180" id="player0" style="fill:black;font-size:19px">hi</text>
             <text id="highscoretext0" x="530" y="180" style="font-size: 16px;font-weight:bold"/>
 
