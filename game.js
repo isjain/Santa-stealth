@@ -25,6 +25,8 @@ var VERTICAL_PLATFORM_DISPLACEMENT = PLATFORM_SIZE*5
 var GET_COIN_SCORE = 10
 var CHILD_KILL_SCORE = 100
 var LEVEL_PASS_SCORE = 100
+var spec_monster_x;
+var spec_monster_y;
 //
 // Variables in the game
 //
@@ -32,6 +34,7 @@ var motionType = {NONE:0, LEFT:1, RIGHT:2, UP:3, DOWN:4}; // Motion enum
 var exit_position
 var svgdoc = null;                          // SVG root document node
 var player = null;                          // The player object
+var specialchild = null;
 var gameInterval = null;                    // The interval
 var zoom = 1.0;                             // The zoom level of the screen
 var gameClock = null;
@@ -119,9 +122,9 @@ var platformL2 =
 "1111111111111111111000000000000000000000",
 "0000000010000000000000111111111111111111",
 "2000000010003000000000000000000000000000",
-"0000070010000000000000004000000000000000",
-"0000000010000000000000000000000000000000",
-"0000000010000000000000000000001000000000"]
+"0000000000000000000000004000000000000700",
+"0000000000000000000000000000000000000000",
+"0000000000000000000000000000001000000000"]
 
 var platformL3 = 
 
@@ -144,7 +147,7 @@ var platformL3 =
 "0000000000000000000000000000070000000000",
 "0000000100000000000000000000000000040000",
 "0000000000000000000000000000000000000000",
-"7000000000000030000000000000000000000000",
+"000700000000030000000000000000000000000",
 "0000000000000000000000000000000100000000",
 "000000030000000004000003000000000000000",
 "0000000000000000001000000000000000000000",
@@ -475,7 +478,7 @@ function startGame(evt){
     // Remove text nodes in the 'platforms' group
     cleanUpGroup("platforms", true);
 
-    createPlatforms(1);
+    createPlatforms(3);
     background_music.play() 
     // Start the game interval
     if (!tryAgain){
@@ -634,6 +637,7 @@ function startAgain(evt){
 }
 
 function shoot(){
+
     var _x = player.position.x 
     var _y = player.position.y
 
@@ -658,19 +662,28 @@ function createGiftSVG(){
     return gift
 } 
 
-function createBulletSVG(){
-    var platforms = svgdoc.getElementById("platforms");
+
+function monsterShoot(){
+    // monsterCanShoot = false;
     var specialchild = svgdoc.getElementById("specialchild");
+    var bullet = svgdoc.createElementNS("http://www.w3.org/2000/svg", "use");
+    var motion = specialchild.getAttribute("motion");
+    var x = parseInt(spec_monster_x); 
+    // alert(x)
+    var y = parseInt(spec_monster_y);
+    bullet.setAttribute("direction", motion);
+    bullet.setAttribute("shootBy", "monster");
+    bullet.setAttribute("id", "bullet");
 
-    var gift=svgdoc.createElementNS(xmlns,"use");
-    gift.setAttributeNS(null, "class", "gift");
+    bullet.setAttribute("x", x + CHILD_SIZE.w / 2);
+    bullet.setAttribute("y", y + CHILD_SIZE.h / 2 - GIFT_SIZE.h / 2);
 
-    gift.setAttributeNS(xlinkns, "xlink:href", "#gift");
+    bullet.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "#bullet");
+    bullet.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "#bullet");
+        var platforms = svgdoc.getElementById("platforms");
+    platforms.appendChild(bullet)
 
-    platforms.appendChild(gift)
-    return gift
 } 
-
 
 
 
@@ -710,6 +723,8 @@ function gamePlay() {
             player.verticalSpeed = 0;
     }
 
+
+
     // Get the new position of the player
     var position = new Point();
     position.x = player.position.x + displacement.x;
@@ -732,7 +747,9 @@ function gamePlay() {
 
     if (player.findExit(player.position)){
         proceedToNextRound()
-    }
+  }
+
+
 }
 
 function updateVerticalPlatformPosition(){
@@ -827,6 +844,7 @@ function updateBulletPosition(){
         else if (gift[i].position.x < 0 || gift[i].position.x > SCREEN_SIZE.w 
             || gift[i].position.y < 0 || gift[i].position.y > SCREEN_SIZE.h)
             removeGift(i)
+
     }    
 }
 
@@ -922,8 +940,15 @@ function updateScreen() {
     updateGiftPosition()
     updateVerticalPlatformPosition()
 
-  // if(monsterCanShoot)
-  //     monsterShootBullet();
+
+// alert(monsterCanShoot)
+
+     // if(monsterCanShoot) {
+     //            // alert("x")
+     //      monsterShoot();
+
+     //    }
+ 
 
     // Transform the player
     if (flipRight==motionType.RIGHT){
@@ -1026,12 +1051,17 @@ function createPlatforms(level){
                 }
 
                 else if (getValueFromPlatform(x,y,level)==SPECIAL_CHILD){
+                    spec_monster_x = _x;
+                    spec_monster_y = _y;
                     var newPlatform=svgdoc.createElementNS(xmlns,"use");
                     newPlatform.setAttributeNS(null, "class", "specialChild");
                     newPlatform.setAttributeNS(xlinkns, "xlink:href", "#specialchild");
                     platforms.appendChild(newPlatform)
                     child[child_count++] = new Child(newPlatform, (child_count%2)+1,_x,_y, new Size(PLATFORM_SIZE, PLAYER_SIZE*2))
+                    monsterCanShoot = true;
                 }
+
+
 
                 else if (getValueFromPlatform(x,y,level)==PORTAL){                    
                     var newPortal=svgdoc.createElementNS(xmlns,"use");
