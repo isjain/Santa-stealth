@@ -478,7 +478,7 @@ function startGame(evt){
     // Remove text nodes in the 'platforms' group
     cleanUpGroup("platforms", true);
 
-    createPlatforms(3);
+    createPlatforms(1);
     background_music.play() 
     // Start the game interval
     if (!tryAgain){
@@ -516,7 +516,12 @@ function gameOver(){
     svgdoc.getElementById("level_text").textContent = currentLevel
     isGameOver = true
     document.cookie = ""
+
+
     updateHighScoreTable()
+                    // alert("why?")
+
+
     svgdoc.getElementById("high_score_table").setAttribute("style","visibility:visible")
     svgdoc.getElementById("start_again_button").addEventListener("click",startAgain)
     
@@ -525,9 +530,12 @@ function gameOver(){
 function updateHighScoreTable(){
     var i =0;
     var table = retrieveFromCookie();
+
+
     for (i=0;i<5;i++){
-        if (table[i] && table[i].score < current_score)
+        if (table[i] && table[i].score < current_score)  {
             break
+        }
     }
     if (i < 5){
         for (var j = 4; j>=i;j--){
@@ -537,15 +545,16 @@ function updateHighScoreTable(){
         table[i] = new ScoreRec(player_name, current_score)
     }
     for (i=0;i<5;i++){
+
         var text = svgdoc.getElementById("player"+i)
         var scoretext = svgdoc.getElementById("highscoretext"+i)
 
         if (player_name == table[i].name) {
             text.setAttribute("style", "fill:red")
         }
-        if (table[i]==null)
+        if (table[i]==null) 
             break
-        if (table[i].name == "0" && table[i].score == "0")
+        if (table[i].name == "0" && table[i].score == "0") 
             break
         else if (i < 4) {
             text.textContent = table[i].name;
@@ -554,10 +563,43 @@ function updateHighScoreTable(){
            { text.textContent = table[i].name;
             scoretext.textContent = table[i].score;
          }
+
     }
+
     renewCookie()
     saveCookie(table)
+
 }
+
+// function updateHighScoreTable(){
+//     var i =0;
+//     var table = retrieveFromCookie();
+//     for (i=0;i<10;i++){
+//         if (table[i] && table[i].score < current_score)
+//             break
+//     }
+//     if (i < 10){
+//         for (var j = 9; j>=i;j--){
+//             table[j] = table[j-1]
+//         }
+
+//         table[i] = new ScoreRecord(player_name, current_score)
+//         console.log("put new score at " + i);
+//     }
+//     for (i=0;i<4;i++){
+//         var text = svgdoc.getElementById("player"+i)
+//         if (table[i]==null)
+//             break
+//         if (table[i].name == "0" && table[i].score == "0")
+//             break
+//         else if (i < 9)
+//             text.textContent = (i+1) + "      " +table[i].name + "      " + table[i].score
+//         else
+//             text.textContent = " " + (i+1) + "      " +table[i].name + "      " + table[i].score
+//     }
+//     renewCookie()
+//     saveCookie(table)
+// }
 
 function saveCookie(table){
     if (table_length++ == 5)
