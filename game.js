@@ -596,6 +596,12 @@ function updateHighScoreTable(){
         if (table[i]==null)
             break
 
+         if (player_name == table[i].name) {
+            text.setAttribute("style", "fill:red")
+        }
+        else {
+            text.setAttribute("style", "fill:black")
+        }
 
         // if (player_name == table[i].name) 
         //    text.setAttribute("style", "fill:red")
