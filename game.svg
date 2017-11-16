@@ -2387,7 +2387,6 @@
     <text x="200" y="540" id="player9" style="fill:black;font-size:19px"></text>
                 <text id="highscoretext9" y="540" x="530" style="font-size: 16px;font-weight:bold"/>
 
-<!--  -->
        <g id="start_again_button" x="400" y="600">
         <rect class="button" x="330" y="450" width="140" height="45" rx="10" ry="10" />
         <text class="button_text" id="normalModeText" x="400" y="480">PLAY AGAIN</text>
