@@ -527,84 +527,96 @@ function gameOver(){
     
 }
 
-function updateHighScoreTable(){
-    var i =0;
-    var table = retrieveFromCookie();
-
-
-    for (i=0;i<5;i++){
-        if (table[i] && table[i].score < current_score)  {
-            break
-        }
-    }
-    if (i < 5){
-        for (var j = 4; j>=i;j--){
-            table[j] = table[j-1]
-        }
-
-        table[i] = new ScoreRec(player_name, current_score)
-    }
-    for (i=0;i<5;i++){
-
-        var text = svgdoc.getElementById("player"+i)
-        var scoretext = svgdoc.getElementById("highscoretext"+i)
-
-        if (player_name == table[i].name) {
-            text.setAttribute("style", "fill:red")
-        }
-        if (table[i]==null) 
-            break
-        if (table[i].name == "0" && table[i].score == "0") 
-            break
-        else if (i < 4) {
-            text.textContent = table[i].name;
-            scoretext.textContent =  table[i].score; }
-        else
-           { text.textContent = table[i].name;
-            scoretext.textContent = table[i].score;
-         }
-
-    }
-
-    renewCookie()
-    saveCookie(table)
-
-}
-
 // function updateHighScoreTable(){
 //     var i =0;
 //     var table = retrieveFromCookie();
-//     for (i=0;i<10;i++){
-//         if (table[i] && table[i].score < current_score)
+
+
+//     for (i=0;i<5;i++){
+//         if (table[i] && table[i].score < current_score)  {
 //             break
+//         }
 //     }
-//     if (i < 10){
-//         for (var j = 9; j>=i;j--){
+//     if (i < 5){
+//         for (var j = 4; j>=i;j--){
 //             table[j] = table[j-1]
 //         }
 
-//         table[i] = new ScoreRecord(player_name, current_score)
-//         console.log("put new score at " + i);
+//         table[i] = new ScoreRec(player_name, current_score)
 //     }
-//     for (i=0;i<4;i++){
+//     for (i=0;i<5;i++){
+
 //         var text = svgdoc.getElementById("player"+i)
-//         if (table[i]==null)
+//         var scoretext = svgdoc.getElementById("highscoretext"+i)
+
+//         if (player_name == table[i].name) {
+//             text.setAttribute("style", "fill:red")
+//         }
+//         if (table[i]==null) 
 //             break
-//         if (table[i].name == "0" && table[i].score == "0")
+//         if (table[i].name == "0" && table[i].score == "0") 
 //             break
-//         else if (i < 9)
-//             text.textContent = (i+1) + "      " +table[i].name + "      " + table[i].score
+//         else if (i < 4) {
+//             text.textContent = table[i].name;
+//             scoretext.textContent =  table[i].score; }
 //         else
-//             text.textContent = " " + (i+1) + "      " +table[i].name + "      " + table[i].score
+//            { text.textContent = table[i].name;
+//             scoretext.textContent = table[i].score;
+//          }
+
 //     }
+
 //     renewCookie()
 //     saveCookie(table)
+
 // }
 
+function updateHighScoreTable(){
+    var i =0;
+
+
+    var table = retrieveFromCookie();
+
+    for (i=0;i<10;i++){
+        if (table[i] && table[i].score < current_score)
+            break
+
+    }
+    if (i < 10){
+        for (var j = 9; j>=i;j--){
+            table[j] = table[j-1]
+
+        }
+
+        table[i] = new ScoreRec(player_name, current_score)
+        console.log("put new score at " + i);
+    }
+    for (i=0;i<10;i++){
+        var text = svgdoc.getElementById("player"+i)
+        if (table[i]==null)
+            break
+
+
+        // if (player_name == table[i].name) 
+        //    text.setAttribute("style", "fill:red")
+
+
+        if (table[i].name == "0" && table[i].score == "0")
+            break
+        else if (i < 9)
+            text.textContent = (i+1) + "      " +table[i].name + "      " + table[i].score
+        else
+            text.textContent = " " + (i+1) + "      " +table[i].name + "      " + table[i].score
+    }
+    renewCookie()
+    saveCookie(table)
+}
+
+
 function saveCookie(table){
-    if (table_length++ == 5)
+    if (table_length++ == 10)
         table_length--
-    for (var i=0;i<5;i++){
+    for (var i=0;i<10;i++){
         if (table[i]==null)
             setCookie("player"+i, "0-0", null, null, null)    
         else
@@ -615,8 +627,11 @@ function saveCookie(table){
 function retrieveFromCookie(){
     var array = []
     table_length = 0
-    for (var i = 0; i < 5; i++) {
+    console.log("retrieved cookie "+document.cookie)
+
+    for (var i = 0; i < 10; i++) {
         var value = getCookie("player"+i)
+        console.log("value at " + i + " "+value)
         if (value){
             var tmp = value.split("-")
             array[i]=new ScoreRec(tmp[0],tmp[1])
@@ -629,7 +644,7 @@ function retrieveFromCookie(){
     return array
 }
 function renewCookie(){
-    for (var i = 0; i <= 5; i++)
+    for (var i = 0; i <= 10; i++)
         deleteCookie("player"+i,null,null)
 }
 

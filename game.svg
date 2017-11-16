@@ -2358,7 +2358,7 @@
         <rect width="800" height="600" style="fill:white;stroke:gray;stroke-width:2"/>
     <text x="250" y="100" id="game_over_text" style="fill:black;font-size:50px; font-family:Quicksand;">GAME OVER</text>
     <text x="200" y="180" id="player0" style="fill:black;font-size:19px">hi</text>
-            <text id="highscoretext0" x="530" y="180" style="font-size: 16px;font-weight:bold"/>
+            <text id="highscoretext0" x="700" y="180" style="font-size: 16px;font-weight:bold"/>
 
      <text x="200"  y="220" id="player1" style="fill:black;font-size:19px"></text>
             <text id="highscoretext1"  x="530" y="220" style="font-size: 16px;font-weight:bold"/>
@@ -2371,6 +2371,21 @@
 
     <text x="200"  y="340" id="player4" style="fill:black;font-size:19px"></text>
             <text id="highscoretext4" y="340" x="530" style="font-size: 16px;font-weight:bold"/>
+
+    <text x="200" y="380" id="player5" style="fill:black;font-size:19px"></text>
+                <text id="highscoretext5" y="380" x="530" style="font-size: 16px;font-weight:bold"/>
+
+    <text x="200" y="420" id="player6" style="fill:black;font-size:19px"></text>
+                <text id="highscoretext6" y="420" x="530" style="font-size: 16px;font-weight:bold"/>
+
+    <text x="200" y="460" id="player7" style="fill:black;font-size:19px"></text>
+                <text id="highscoretext7" y="460" x="530" style="font-size: 16px;font-weight:bold"/>
+
+    <text x="200" y="500" id="player8" style="fill:black;font-size:19px"></text>
+                <text id="highscoretext8" y="500" x="530" style="font-size: 16px;font-weight:bold"/>
+
+    <text x="200" y="540" id="player9" style="fill:black;font-size:19px"></text>
+                <text id="highscoretext9" y="540" x="530" style="font-size: 16px;font-weight:bold"/>
 
 <!--  -->
        <g id="start_again_button" x="400" y="600">
